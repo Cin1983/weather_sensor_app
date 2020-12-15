@@ -1,18 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-const App = () => {
+// functional component
+// const App = () => {
     
-    window.navigator.geolocation.getCurrentPosition(
-        position => console.log(position),
-        error => console.log(error)
-    );
+//     window.navigator.geolocation.getCurrentPosition(
+//         position => console.log(position),
+//         error => console.log(error)
+//     );
     
-    return <div>Hey you, doe je best he!</div>
-     };
+//     return <div>Latitude:</div>
+//      };
 
-
-
+// class based component
+class App extends React.Component{
+    render() {
+        window.navigator.geolocation.getCurrentPosition(
+                    position => console.log(position),
+                    error => console.log(error)
+        );
+        return <div>Latitude: </div>
+    }
+}
 
 
 
