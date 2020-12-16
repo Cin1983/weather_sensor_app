@@ -1,3 +1,4 @@
+// import { render } from "@testing-library/react";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -13,19 +14,37 @@ import ReactDOM from "react-dom";
 //      };
 
 // class based component
+//React say we have to define render!!
 class App extends React.Component{
-    render() {
+
+    constructor(props) {
+        super(props);
+// THIS IS THE ONLY TIME WE DO DIRECT ASSIGNMENT TO THIS.STATE
+        this.state = { latitude: null, errorMessage:"" };
+
         window.navigator.geolocation.getCurrentPosition(
-                    position => console.log(position),
-                    error => console.log(error)
+            position => {
+                // WE CALLED SETSTATE!!!
+                this.setState({ latitude: position.coords.latitude });
+            },
+            error => {
+                this.setState({ errorMessage: error.message })
+            }
         );
-        return <div>Latitude: </div>
+
+    };
+// REACT WANTS US TO DEFINE RENDER!!
+    render() {
+            if (this.state.errorMessage && !this.state.latitude){
+                return <div> Error: {this.state.errorMessage}</div>
+            }
+            // <br/>
+            // Error:{this.state.errorMessage}
+        
+        // </div>
+        // )
     }
 }
-
-
-
-
 
 
 
