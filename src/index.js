@@ -1,6 +1,57 @@
 // import { render } from "@testing-library/react";
 import React from "react";
 import ReactDOM from "react-dom";
+import SeasonDisplay from "./SeasonDisplay";
+import Spinner from "./Spinner";
+
+
+
+class App extends React.Component{
+
+ 
+    state = { latitude: null, errorMessage: "" };
+
+
+    componentDidMount() {
+        window.navigator.geolocation.getCurrentPosition(
+            position => this.setState({ latitude: position.coords.latitude }),
+            error => this.setState({ errorMessage: error.message })
+   );
+
+}
+    renderContent() {
+       
+         if (this.state.errorMessage && !this.state.latitude){
+                return <div> Error: {this.state.errorMessage}</div>
+        }
+        if (!this.state.erroMessage && this.state.latitude) {
+            return <SeasonDisplay latitude = {this.state.latitude}/>
+        }
+        return <Spinner message="Please accept location request..." />;
+           
+                
+       
+}
+    
+    
+    
+// REACT WANTS US TO DEFINE RENDER!!
+    render() {
+        return (
+            <div className="border-red">
+                {this.renderContent()}
+            </div>
+        );
+    }
+}
+
+
+
+ReactDOM.render(<App />,
+    document.querySelector("#root")
+)
+
+export default App;
 
 // functional component
 // const App = () => {
@@ -15,43 +66,3 @@ import ReactDOM from "react-dom";
 
 // class based component
 //React say we have to define render!!
-class App extends React.Component{
-
-    constructor(props) {
-        super(props);
-// THIS IS THE ONLY TIME WE DO DIRECT ASSIGNMENT TO THIS.STATE
-        this.state = { latitude: null, errorMessage:"" };
-
-        window.navigator.geolocation.getCurrentPosition(
-            position => {
-                // WE CALLED SETSTATE!!!
-                this.setState({ latitude: position.coords.latitude });
-            },
-            error => {
-                this.setState({ errorMessage: error.message })
-            }
-        );
-
-    };
-// REACT WANTS US TO DEFINE RENDER!!
-    render() {
-            if (this.state.errorMessage && !this.state.latitude){
-                return <div> Error: {this.state.errorMessage}</div>
-            }
-            // <br/>
-            // Error:{this.state.errorMessage}
-        
-        // </div>
-        // )
-    }
-}
-
-
-
-
-
-ReactDOM.render(<App />,
-    document.querySelector("#root")
-)
-
-export default App;
